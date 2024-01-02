@@ -1,0 +1,57 @@
+pizzas = ['cheese', 'pepperoni', 'veggie', 'supreme']
+sizes = ['small', 'medium', 'large']
+prices = {'small': 8, 'medium': 10, 'large': 12}
+
+def get_pizza_order():
+  print("Our pizzas:")
+  for i, pizza in enumerate(pizzas):
+    print(f"{i+1}. {pizza}")
+
+  while True:
+    pizza_index = input("What pizza would you like? Enter number: ")
+    if pizza_index.isdigit() and 0 < int(pizza_index) <= len(pizzas):
+      pizza_index = int(pizza_index)
+      break
+    else:
+      print("Invalid input. Please enter a number from the menu.")
+
+  while True:
+    size = input("What size pizza? (Small, Medium, Large): ")
+    if size in sizes:
+      break
+    else:
+      print("Invalid size. Please enter Small, Medium, or Large.")
+
+  quantity = int(input("How many pizzas? "))
+
+  return pizzas[pizza_index-1], size, quantity
+
+def calculate_price(pizza, size, quantity):
+  return prices[size] * quantity
+
+def deliver_pizza(name, address, pizza, size, quantity):
+  print(f"Delivering {quantity} {size} {pizza} pizzas to {name} at {address}.")
+  print(f"Order placed at {datetime.datetime.now().strftime('%I:%M %p')}")
+  print("Pizza order complete!")
+
+while True:
+  name = input("What is your name? ")
+  address = input("What is your address? ")
+
+  pizza, size, quantity = get_pizza_order()
+  price = calculate_price(pizza, size, quantity)
+
+  print(f"Order summary:")
+  print(f"- {quantity} {size} {pizza} pizzas")
+  print(f"- Total price: ${price}")
+
+  confirm = input("Confirm order? (y/n) ")
+  if confirm.lower() != 'n':
+    print("Order confirmed!")
+    deliver_pizza(name, address, pizza, size, quantity)
+    break  # Exit the loop if the order is confirmed
+  else:
+    change_order = input("Do you want to change your order? (Y/n) ")
+    if change_order.lower() == 'n':
+      print("Order canceled.")
+      break  # Exit the loop if the user doesn't want to change the order
